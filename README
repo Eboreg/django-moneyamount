@@ -1,0 +1,27 @@
+Eftersom vi handlar med olika valutor, har vi behov av att för varje transaktion
+lagra inte bara beloppet utan även valutan och den vid tillfället aktuella
+växelkursen. Jag har därför skrivit modellen MoneyAmount med den tillhörande
+MoneyAmountField, som ärver OneToOneField. Poängen är, att man i sina modeller
+ska kunna deklarera ett fält av typen MoneyAmountField, tilldela det ett
+numerärt värde och ev. en valutasträng och sedan inte behöva tänka mer på
+saken.
+
+Jag har även skrivit en formfield och en widget (se forms.py), som gör att
+MoneyAmount-fält i olika formulär kommer att representeras av en inputruta
+och en select-meny med valutor.
+
+Aritmetiska operationer med två olika MoneyAmount-objekt funkar oavsett
+om de har olika valutor. Vid operationen `ma1 + ma2`, kommer resultatet att
+vara i ma1:s valuta.
+
+models.CurrencyExchangeRate är inte mitt verk, men jag bifogade den för att den
+krävs för funktionaliteten.
+
+Det finns lite kvar att göra förstås. T.ex. är det ju redundant att lagra
+BÅDE base_amount och base_exchange_rate i modellen.
+
+Det kan också bli så att databasen blir nedlusad med en massa "övergivna"
+MoneyAmounts ifall jag inte skriver in någon form av signal som raderar dem
+när så är lämpligt. Det som nu finns, är att
+fields.MoneyAmountDescriptor.__set__() raderar ev. gamla relaterade
+MoneyAmount-objekt om sådana finns.
