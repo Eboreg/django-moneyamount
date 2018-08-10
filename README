@@ -25,3 +25,9 @@ MoneyAmounts ifall jag inte skriver in någon form av signal som raderar dem
 när så är lämpligt. Det som nu finns, är att
 fields.MoneyAmountDescriptor.__set__() raderar ev. gamla relaterade
 MoneyAmount-objekt om sådana finns.
+
+
+EDIT: Vid ett senare tillfälle refaktorerade jag det hela så som det 
+naturligtvis skulle ha gjorts från början, d.v.s. så att MoneyAmountField inte
+alls korresponderar mot någon modell utan bara är ett serialiserat objekt.
+Den versionen verkar jag dock, av okänd anledning, aldrig ha commitat.
